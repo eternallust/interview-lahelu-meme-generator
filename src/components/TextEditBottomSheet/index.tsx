@@ -25,13 +25,6 @@ const COLOR_OPTIONS = [
   '#FF0000', // Red
   '#00FF00', // Green
   '#0000FF', // Blue
-  '#FFFF00', // Yellow
-  '#FF00FF', // Magenta
-  '#00FFFF', // Cyan
-  '#FFA500', // Orange
-  '#800080', // Purple
-  '#FFC0CB', // Pink
-  '#A52A2A', // Brown
 ];
 
 export const TextEditBottomSheet: React.FC<TextEditBottomSheetProps> = ({

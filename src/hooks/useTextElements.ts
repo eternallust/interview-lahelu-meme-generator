@@ -1,5 +1,6 @@
 import {useState, useCallback} from 'react';
 import {TextElement, TextElementsState} from '../types';
+import {COLORS, DIMENSIONS, STRINGS} from '../constants';
 
 export const useTextElements = (): TextElementsState & {
   editingTextElement: TextElement | null;
@@ -16,15 +17,15 @@ export const useTextElements = (): TextElementsState & {
   const addText = useCallback((text: string) => {
     const newTextElement: TextElement = {
       id: generateId(),
-      text: text || 'Sample Text',
-      x: 0,
-      y: 0,
-      rotation: 0,
-      scale: 1,
-      fontSize: 20,
-      color: '#FFFFFF',
-      backgroundColor: 'transparent',
-      fontWeight: 'bold',
+      text: text || STRINGS.SAMPLE_TEXT,
+      x: DIMENSIONS.DEFAULT_POSITION,
+      y: DIMENSIONS.DEFAULT_POSITION,
+      rotation: DIMENSIONS.DEFAULT_POSITION,
+      scale: DIMENSIONS.DEFAULT_SCALE,
+      fontSize: DIMENSIONS.TEXT_DEFAULT_FONT_SIZE,
+      color: COLORS.TEXT_DEFAULT,
+      backgroundColor: COLORS.TRANSPARENT,
+      fontWeight: STRINGS.FONT_WEIGHTS.BOLD,
       isSelected: true,
     };
 
@@ -69,8 +70,8 @@ export const useTextElements = (): TextElementsState & {
         const copiedElement: TextElement = {
           ...elementToCopy,
           id: generateId(),
-          x: elementToCopy.x + 20,
-          y: elementToCopy.y + 20,
+          x: elementToCopy.x + DIMENSIONS.TEXT_COPY_OFFSET,
+          y: elementToCopy.y + DIMENSIONS.TEXT_COPY_OFFSET,
           isSelected: true,
         };
 

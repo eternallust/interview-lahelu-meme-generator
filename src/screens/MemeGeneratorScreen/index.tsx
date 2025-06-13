@@ -10,7 +10,10 @@ import {
   ToolsBottomSheet,
   CanvasContainer,
   TextEditBottomSheet,
+  TemplateBottomSheet,
 } from '../../components';
+import {TemplateItem} from '../../assets/templates';
+import {STRINGS} from '../../constants';
 
 import {styles} from './styles';
 
@@ -19,8 +22,10 @@ interface MemeGeneratorScreenProps {}
 export const MemeGeneratorScreen: React.FC<MemeGeneratorScreenProps> = () => {
   const bottomSheetRef = useRef<BottomSheet>(null);
   const textEditBottomSheetRef = useRef<BottomSheet>(null);
+  const templateBottomSheetRef = useRef<BottomSheet>(null);
 
-  const {selectedImage, imageDimensions, selectImage} = useImagePicker();
+  const {selectedImage, imageDimensions, selectImage, selectTemplate} =
+    useImagePicker();
   const {scale, translateX, translateY, composedGesture, resetCanvasTransform} =
     useCanvasGestures();
 
@@ -71,7 +76,7 @@ export const MemeGeneratorScreen: React.FC<MemeGeneratorScreenProps> = () => {
   }, [selectImage, resetCanvasTransform]);
 
   const handleAddTextPress = useCallback(() => {
-    addText('Sample Text');
+    addText(STRINGS.SAMPLE_TEXT);
   }, [addText]);
 
   const handleImagePickerPress = useCallback(async () => {
@@ -83,6 +88,22 @@ export const MemeGeneratorScreen: React.FC<MemeGeneratorScreenProps> = () => {
 
     bottomSheetRef.current?.close();
   }, [selectImage, resetCanvasTransform]);
+
+  // Handle template button press - opens template bottom sheet
+  const handleTemplatePress = useCallback(() => {
+    templateBottomSheetRef.current?.expand();
+  }, []);
+
+  // Handle template selection - closes bottom sheet and updates canvas
+  const handleTemplateSelect = useCallback(
+    (template: TemplateItem) => {
+      const success = selectTemplate(template);
+      if (success) {
+        resetCanvasTransform();
+      }
+    },
+    [selectTemplate, resetCanvasTransform],
+  );
 
   return (
     <GestureHandlerRootView style={styles.container}>
@@ -105,6 +126,7 @@ export const MemeGeneratorScreen: React.FC<MemeGeneratorScreenProps> = () => {
         <BottomBar
           onUploadImagePress={handleUploadImagePress}
           onAddTextPress={handleAddTextPress}
+          onTemplatePress={handleTemplatePress}
         />
 
         <ToolsBottomSheet
@@ -117,6 +139,12 @@ export const MemeGeneratorScreen: React.FC<MemeGeneratorScreenProps> = () => {
           textElement={editingTextElement}
           onUpdateText={updateText}
           onClose={() => setEditingTextElement(null)}
+        />
+
+        {/* Template Bottom Sheet - shows meme templates from assets */}
+        <TemplateBottomSheet
+          bottomSheetRef={templateBottomSheetRef}
+          onTemplateSelect={handleTemplateSelect}
         />
       </View>
     </GestureHandlerRootView>

@@ -1,10 +1,11 @@
 import {SharedValue} from 'react-native-reanimated';
+import {ComposedGesture} from 'react-native-gesture-handler';
 
 export interface CanvasGestureValues {
   scale: SharedValue<number>;
   translateX: SharedValue<number>;
   translateY: SharedValue<number>;
-  composedGesture: any;
+  composedGesture: ComposedGesture;
   resetCanvasTransform: () => void;
 }
 

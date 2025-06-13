@@ -12,16 +12,24 @@ import {TextElement} from '../TextElement';
 import {TextElement as TextElementType} from '../../types';
 import {styles} from './styles';
 import {CANVAS_CONFIG} from '../../constants/canvas';
+import {STRINGS} from '../../constants';
 
 const {width: screenWidth, height: screenHeight} = Dimensions.get('window');
 
+import {SharedValue} from 'react-native-reanimated';
+import {ComposedGesture} from 'react-native-gesture-handler';
+import {ImageSourcePropType} from 'react-native';
+
+// Support both string URIs (from gallery) and require() results (from assets)
+type ImageSource = string | ImageSourcePropType | null;
+
 interface CanvasContainerProps {
-  selectedImage: string | null;
+  selectedImage: ImageSource;
   imageDimensions: {width: number; height: number} | null;
-  gesture: any;
-  scale: any;
-  translateX: any;
-  translateY: any;
+  gesture: ComposedGesture;
+  scale: SharedValue<number>;
+  translateX: SharedValue<number>;
+  translateY: SharedValue<number>;
   textElements: TextElementType[];
   onUpdateText: (id: string, updates: Partial<TextElementType>) => void;
   onSelectText: (id: string | null) => void;
@@ -41,12 +49,13 @@ const calculateCanvasDimensions = (
     };
   }
 
-  const maxWidth = screenWidth * 0.9;
-  const maxHeight = screenHeight * 0.7;
-  const imageAspectRatio = imageDimensions.width / imageDimensions.height;
+  const maxWidth: number = screenWidth * 0.9;
+  const maxHeight: number = screenHeight * 0.7;
+  const imageAspectRatio: number =
+    imageDimensions.width / imageDimensions.height;
 
-  let canvasWidth = imageDimensions.width;
-  let canvasHeight = imageDimensions.height;
+  let canvasWidth: number = imageDimensions.width;
+  let canvasHeight: number = imageDimensions.height;
 
   // Scale down if image is too large for screen
   if (canvasWidth > maxWidth) {
@@ -97,9 +106,15 @@ export const CanvasContainer: React.FC<CanvasContainerProps> = ({
 
   const renderCanvasContent = () => {
     if (selectedImage) {
+      // Handle both string URIs (from gallery) and require() results (from assets)
+      const imageSource =
+        typeof selectedImage === 'string'
+          ? {uri: selectedImage} // String URI from gallery
+          : selectedImage; // require() result from assets
+
       return (
         <Image
-          source={{uri: selectedImage}}
+          source={imageSource}
           style={styles.canvasImage}
           resizeMode="contain"
         />
@@ -108,7 +123,9 @@ export const CanvasContainer: React.FC<CanvasContainerProps> = ({
 
     return (
       <View style={styles.placeholder}>
-        <Text style={styles.placeholderText}>Tap Tools to add image</Text>
+        <Text style={styles.placeholderText}>
+          {STRINGS.TAP_TOOLS_TO_ADD_IMAGE}
+        </Text>
       </View>
     );
   };

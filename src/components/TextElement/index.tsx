@@ -7,6 +7,7 @@ import Animated, {
   runOnJS,
 } from 'react-native-reanimated';
 import {TextElement as TextElementType} from '../../types';
+import {Button} from '../Button';
 import {styles} from './styles';
 
 interface TextElementProps {
@@ -107,7 +108,8 @@ export const TextElement: React.FC<TextElementProps> = ({
   const createRotateGesture = () => {
     return Gesture.Pan()
       .onUpdate(event => {
-        const rotationChange = (event.translationX + event.translationY) / 100;
+        const rotationChange: number =
+          (event.translationX + event.translationY) / 100;
         rotation.value = element.rotation + rotationChange;
       })
       .onEnd(() => {
@@ -122,7 +124,7 @@ export const TextElement: React.FC<TextElementProps> = ({
   ) => {
     return Gesture.Pan()
       .onUpdate(event => {
-        let scaleChange = 0;
+        let scaleChange: number = 0;
 
         switch (corner) {
           case 'bottomRight':
@@ -143,7 +145,7 @@ export const TextElement: React.FC<TextElementProps> = ({
             break;
         }
 
-        const newScale = element.scale + scaleChange;
+        const newScale: number = element.scale + scaleChange;
         scale.value = Math.max(0.5, Math.min(3, newScale));
       })
       .onEnd(() => {
@@ -193,30 +195,36 @@ export const TextElement: React.FC<TextElementProps> = ({
 
         <GestureDetector gesture={createRotateGesture()}>
           <Animated.View style={[styles.rotateButton, rotateButtonStyle]}>
-            <Animated.View style={styles.actionButton}>
-              <Text style={styles.actionButtonText}>🔄</Text>
-            </Animated.View>
+            <Button
+              variant="icon"
+              icon="ROTATE"
+              onPress={() => {}}
+              size="small"
+            />
           </Animated.View>
         </GestureDetector>
 
         <Animated.View style={[styles.actionButtons, actionButtonStyle]}>
-          <TouchableOpacity
-            style={styles.actionButton}
-            onPress={() => onCopy(element.id)}>
-            <Text style={styles.actionButtonText}>📋</Text>
-          </TouchableOpacity>
+          <Button
+            variant="icon"
+            icon="COPY"
+            onPress={() => onCopy(element.id)}
+            size="small"
+          />
 
-          <TouchableOpacity
-            style={styles.actionButton}
-            onPress={() => onDelete(element.id)}>
-            <Text style={styles.actionButtonText}>🗑️</Text>
-          </TouchableOpacity>
+          <Button
+            variant="icon"
+            icon="DELETE"
+            onPress={() => onDelete(element.id)}
+            size="small"
+          />
 
-          <TouchableOpacity
-            style={styles.actionButton}
-            onPress={() => onEdit(element.id)}>
-            <Text style={styles.actionButtonText}>✏️</Text>
-          </TouchableOpacity>
+          <Button
+            variant="icon"
+            icon="EDIT"
+            onPress={() => onEdit(element.id)}
+            size="small"
+          />
         </Animated.View>
       </>
     );

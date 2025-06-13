@@ -8,27 +8,28 @@ import {
   shouldResetTranslate,
   isScaleOutOfBounds,
 } from '../utils/canvasConstraints';
+import {DIMENSIONS} from '../constants';
 
 export const useCanvasGestures = () => {
-  const scale = useSharedValue(1);
-  const savedScale = useSharedValue(1);
-  const translateX = useSharedValue(0);
-  const translateY = useSharedValue(0);
-  const savedTranslateX = useSharedValue(0);
-  const savedTranslateY = useSharedValue(0);
+  const scale = useSharedValue(DIMENSIONS.DEFAULT_SCALE);
+  const savedScale = useSharedValue(DIMENSIONS.DEFAULT_SCALE);
+  const translateX = useSharedValue(DIMENSIONS.DEFAULT_POSITION);
+  const translateY = useSharedValue(DIMENSIONS.DEFAULT_POSITION);
+  const savedTranslateX = useSharedValue(DIMENSIONS.DEFAULT_POSITION);
+  const savedTranslateY = useSharedValue(DIMENSIONS.DEFAULT_POSITION);
 
   const resetCanvasTransform = () => {
-    scale.value = withSpring(1);
-    translateX.value = withSpring(0);
-    translateY.value = withSpring(0);
-    savedScale.value = 1;
-    savedTranslateX.value = 0;
-    savedTranslateY.value = 0;
+    scale.value = withSpring(DIMENSIONS.DEFAULT_SCALE);
+    translateX.value = withSpring(DIMENSIONS.DEFAULT_POSITION);
+    translateY.value = withSpring(DIMENSIONS.DEFAULT_POSITION);
+    savedScale.value = DIMENSIONS.DEFAULT_SCALE;
+    savedTranslateX.value = DIMENSIONS.DEFAULT_POSITION;
+    savedTranslateY.value = DIMENSIONS.DEFAULT_POSITION;
   };
 
   const pinchGesture = Gesture.Pinch()
     .onUpdate(event => {
-      const newScale = savedScale.value * event.scale;
+      const newScale: number = savedScale.value * event.scale;
       scale.value = clampScale(newScale);
 
       translateX.value = clampTranslateX(savedTranslateX.value, scale.value);
@@ -55,8 +56,10 @@ export const useCanvasGestures = () => {
   const panGesture = Gesture.Pan()
     .onUpdate(event => {
       if (savedScale.value > 1) {
-        const newTranslateX = savedTranslateX.value + event.translationX;
-        const newTranslateY = savedTranslateY.value + event.translationY;
+        const newTranslateX: number =
+          savedTranslateX.value + event.translationX;
+        const newTranslateY: number =
+          savedTranslateY.value + event.translationY;
 
         translateX.value = clampTranslateX(newTranslateX, savedScale.value);
         translateY.value = clampTranslateY(newTranslateY, savedScale.value);
@@ -66,8 +69,14 @@ export const useCanvasGestures = () => {
       savedTranslateX.value = translateX.value;
       savedTranslateY.value = translateY.value;
 
-      const clampedX = clampTranslateX(translateX.value, savedScale.value);
-      const clampedY = clampTranslateY(translateY.value, savedScale.value);
+      const clampedX: number = clampTranslateX(
+        translateX.value,
+        savedScale.value,
+      );
+      const clampedY: number = clampTranslateY(
+        translateY.value,
+        savedScale.value,
+      );
 
       if (translateX.value !== clampedX) {
         translateX.value = withSpring(clampedX);

@@ -1,29 +1,41 @@
 import React from 'react';
-import {View, TouchableOpacity, Text} from 'react-native';
+import {View} from 'react-native';
+import {Button} from '../Button';
 import {styles} from './styles';
 
 interface BottomBarProps {
   onUploadImagePress: () => void;
   onAddTextPress: () => void;
+  onTemplatePress: () => void;
 }
 
 export const BottomBar: React.FC<BottomBarProps> = ({
   onUploadImagePress,
   onAddTextPress,
+  onTemplatePress,
 }) => {
   return (
     <View style={styles.bottomBar}>
-      <TouchableOpacity
-        style={styles.actionButton}
-        onPress={onUploadImagePress}>
-        <Text style={styles.actionButtonIcon}>📷</Text>
-        <Text style={styles.actionButtonText}>Upload Image</Text>
-      </TouchableOpacity>
+      <Button
+        variant="action"
+        icon="TEMPLATE"
+        title="Templates"
+        onPress={onTemplatePress}
+      />
 
-      <TouchableOpacity style={styles.actionButton} onPress={onAddTextPress}>
-        <Text style={styles.actionButtonIcon}>📝</Text>
-        <Text style={styles.actionButtonText}>Add Text</Text>
-      </TouchableOpacity>
+      <Button
+        variant="action"
+        icon="CAMERA"
+        title="Upload"
+        onPress={onUploadImagePress}
+      />
+
+      <Button
+        variant="action"
+        icon="TEXT"
+        title="Add Text"
+        onPress={onAddTextPress}
+      />
     </View>
   );
 };

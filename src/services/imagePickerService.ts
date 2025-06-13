@@ -30,9 +30,9 @@ export const pickImageFromLibrary = (): Promise<ImagePickerResult> => {
         }
 
         const asset = response.assets?.[0];
-        const imageUri = asset?.uri;
-        const width = asset?.width;
-        const height = asset?.height;
+        const imageUri: string | undefined = asset?.uri;
+        const width: number | undefined = asset?.width;
+        const height: number | undefined = asset?.height;
 
         if (imageUri && width && height) {
           resolve({success: true, imageUri, width, height});

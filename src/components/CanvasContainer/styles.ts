@@ -1,4 +1,5 @@
 import {StyleSheet} from 'react-native';
+import {COLORS, STRINGS, DIMENSIONS} from '../../constants';
 
 export const styles = StyleSheet.create({
   canvasContainer: {
@@ -8,7 +9,7 @@ export const styles = StyleSheet.create({
   canvas: {
     width: '100%',
     height: '100%',
-    backgroundColor: '#FFFFFF',
+    backgroundColor: COLORS.CANVAS_BACKGROUND,
     borderRadius: 8,
     shadowColor: '#000',
     shadowOffset: {

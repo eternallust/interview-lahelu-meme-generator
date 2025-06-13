@@ -1,4 +1,5 @@
 import {StyleSheet} from 'react-native';
+import {COLORS, DIMENSIONS, STRINGS} from '../../constants';
 
 export const styles = StyleSheet.create({
   container: {
@@ -13,14 +14,14 @@ export const styles = StyleSheet.create({
     right: -5,
     bottom: -5,
     borderWidth: 2,
-    borderColor: '#4A90E2',
+    borderColor: COLORS.PRIMARY_BLUE,
     borderStyle: 'dashed',
     borderRadius: 4,
-    backgroundColor: 'transparent',
+    backgroundColor: COLORS.TRANSPARENT,
   },
   text: {
     textAlign: 'center',
-    textShadowColor: 'rgba(0, 0, 0, 0.5)',
+    textShadowColor: COLORS.TEXT_SHADOW,
     textShadowOffset: {width: 1, height: 1},
     textShadowRadius: 2,
     padding: 4,

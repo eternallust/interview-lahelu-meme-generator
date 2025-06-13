@@ -1,4 +1,5 @@
 import {StyleSheet} from 'react-native';
+import {COLORS, STRINGS} from '../../constants';
 
 export const styles = StyleSheet.create({
   container: {
@@ -6,8 +7,8 @@ export const styles = StyleSheet.create({
   },
   screenContainer: {
     flex: 1,
-    backgroundColor: '#808080',
-    justifyContent: 'center',
-    alignItems: 'center',
+    backgroundColor: COLORS.SCREEN_BACKGROUND,
+    justifyContent: STRINGS.JUSTIFY_CONTENT.CENTER,
+    alignItems: STRINGS.ALIGN_ITEMS.CENTER,
   },
 });

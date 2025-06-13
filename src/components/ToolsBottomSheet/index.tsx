@@ -1,6 +1,7 @@
 import React, {RefObject} from 'react';
-import {View, Text, TouchableOpacity} from 'react-native';
+import {View, Text} from 'react-native';
 import BottomSheet from '@gorhom/bottom-sheet';
+import {Button} from '../Button';
 import {styles} from './styles';
 import {BOTTOM_SHEET_CONFIG} from '../../constants/canvas';
 
@@ -23,12 +24,12 @@ export const ToolsBottomSheet: React.FC<ToolsBottomSheetProps> = ({
       handleIndicatorStyle={styles.bottomSheetIndicator}>
       <View style={styles.bottomSheetContent}>
         <Text style={styles.bottomSheetTitle}>Tools</Text>
-        <TouchableOpacity
-          style={styles.bottomSheetOption}
-          onPress={onImagePickerPress}>
-          <Text style={styles.bottomSheetOptionIcon}>📷</Text>
-          <Text style={styles.bottomSheetOptionText}>Upload Image</Text>
-        </TouchableOpacity>
+        <Button
+          variant="secondary"
+          icon="CAMERA"
+          title="Upload Image"
+          onPress={onImagePickerPress}
+        />
       </View>
     </BottomSheet>
   );
