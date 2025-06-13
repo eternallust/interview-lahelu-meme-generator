@@ -6,7 +6,7 @@ export const styles = StyleSheet.create({
   },
   screenContainer: {
     flex: 1,
-    backgroundColor: '#808080', // Background abu-abu
+    backgroundColor: '#808080',
     justifyContent: 'center',
     alignItems: 'center',
   },

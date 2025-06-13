@@ -4,6 +4,7 @@ import {GestureHandlerRootView} from 'react-native-gesture-handler';
 import BottomSheet from '@gorhom/bottom-sheet';
 import {useCanvasGestures} from '../../hooks/useCanvasGestures';
 import {useImagePicker} from '../../hooks/useImagePicker';
+import {useTextElements} from '../../hooks/useTextElements';
 import {BottomBar, ToolsBottomSheet, CanvasContainer} from '../../components';
 
 import {styles} from './styles';
@@ -17,6 +18,9 @@ export const MemeGeneratorScreen: React.FC<MemeGeneratorScreenProps> = () => {
   const {scale, translateX, translateY, composedGesture, resetCanvasTransform} =
     useCanvasGestures();
 
+  const {textElements, addText, updateText, selectText, deleteText, copyText} =
+    useTextElements();
+
   const handleUploadImagePress = useCallback(async () => {
     const success = await selectImage();
 
@@ -26,9 +30,8 @@ export const MemeGeneratorScreen: React.FC<MemeGeneratorScreenProps> = () => {
   }, [selectImage, resetCanvasTransform]);
 
   const handleAddTextPress = useCallback(() => {
-    // TODO: Implement add text functionality
-    console.log('Add text pressed');
-  }, []);
+    addText('Sample Text');
+  }, [addText]);
 
   const handleImagePickerPress = useCallback(async () => {
     const success = await selectImage();
@@ -49,6 +52,11 @@ export const MemeGeneratorScreen: React.FC<MemeGeneratorScreenProps> = () => {
           scale={scale}
           translateX={translateX}
           translateY={translateY}
+          textElements={textElements}
+          onUpdateText={updateText}
+          onSelectText={selectText}
+          onCopyText={copyText}
+          onDeleteText={deleteText}
         />
 
         <BottomBar

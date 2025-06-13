@@ -11,7 +11,7 @@ export const styles = StyleSheet.create({
   canvas: {
     width: '100%',
     height: '100%',
-    backgroundColor: '#FFFFFF', // Canvas putih
+    backgroundColor: '#FFFFFF',
     borderRadius: 8,
     shadowColor: '#000',
     shadowOffset: {
@@ -20,7 +20,7 @@ export const styles = StyleSheet.create({
     },
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
-    elevation: 5, // Shadow untuk Android
+    elevation: 5,
     overflow: 'hidden',
   },
   canvasImage: {
@@ -41,5 +41,14 @@ export const styles = StyleSheet.create({
     fontSize: 16,
     color: '#999999',
     textAlign: 'center',
+  },
+  textOverlay: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });

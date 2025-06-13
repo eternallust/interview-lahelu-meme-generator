@@ -1,7 +1,9 @@
 import React from 'react';
-import {View, Image, Text} from 'react-native';
+import {View, Image, Text, TouchableWithoutFeedback} from 'react-native';
 import {GestureDetector} from 'react-native-gesture-handler';
 import Animated, {useAnimatedStyle} from 'react-native-reanimated';
+import {TextElement} from '../TextElement';
+import {TextElement as TextElementType} from '../../types';
 import {styles} from './styles';
 
 interface CanvasContainerProps {
@@ -10,6 +12,11 @@ interface CanvasContainerProps {
   scale: any;
   translateX: any;
   translateY: any;
+  textElements: TextElementType[];
+  onUpdateText: (id: string, updates: Partial<TextElementType>) => void;
+  onSelectText: (id: string | null) => void;
+  onCopyText: (id: string) => void;
+  onDeleteText: (id: string) => void;
 }
 
 export const CanvasContainer: React.FC<CanvasContainerProps> = ({
@@ -18,6 +25,11 @@ export const CanvasContainer: React.FC<CanvasContainerProps> = ({
   scale,
   translateX,
   translateY,
+  textElements,
+  onUpdateText,
+  onSelectText,
+  onCopyText,
+  onDeleteText,
 }) => {
   const animatedCanvasStyle = useAnimatedStyle(() => {
     return {
@@ -28,6 +40,10 @@ export const CanvasContainer: React.FC<CanvasContainerProps> = ({
       ],
     };
   });
+
+  const handleCanvasPress = () => {
+    onSelectText(null);
+  };
 
   const renderCanvasContent = () => {
     if (selectedImage) {
@@ -47,10 +63,29 @@ export const CanvasContainer: React.FC<CanvasContainerProps> = ({
     );
   };
 
+  const renderTextElements = () => {
+    return textElements.map(textElement => (
+      <TextElement
+        key={textElement.id}
+        element={textElement}
+        onUpdate={onUpdateText}
+        onSelect={onSelectText}
+        onCopy={onCopyText}
+        onDelete={onDeleteText}
+      />
+    ));
+  };
+
   return (
     <GestureDetector gesture={gesture}>
       <Animated.View style={[styles.canvasContainer, animatedCanvasStyle]}>
-        <View style={styles.canvas}>{renderCanvasContent()}</View>
+        <TouchableWithoutFeedback onPress={handleCanvasPress}>
+          <View style={styles.canvas}>
+            {renderCanvasContent()}
+
+            <View style={styles.textOverlay}>{renderTextElements()}</View>
+          </View>
+        </TouchableWithoutFeedback>
       </Animated.View>
     </GestureDetector>
   );
