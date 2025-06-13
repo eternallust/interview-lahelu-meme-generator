@@ -1,13 +1,23 @@
 import React from 'react';
-import {View, Image, Text, TouchableWithoutFeedback} from 'react-native';
+import {
+  View,
+  Image,
+  Text,
+  TouchableWithoutFeedback,
+  Dimensions,
+} from 'react-native';
 import {GestureDetector} from 'react-native-gesture-handler';
 import Animated, {useAnimatedStyle} from 'react-native-reanimated';
 import {TextElement} from '../TextElement';
 import {TextElement as TextElementType} from '../../types';
 import {styles} from './styles';
+import {CANVAS_CONFIG} from '../../constants/canvas';
+
+const {width: screenWidth, height: screenHeight} = Dimensions.get('window');
 
 interface CanvasContainerProps {
   selectedImage: string | null;
+  imageDimensions: {width: number; height: number} | null;
   gesture: any;
   scale: any;
   translateX: any;
@@ -17,10 +27,47 @@ interface CanvasContainerProps {
   onSelectText: (id: string | null) => void;
   onCopyText: (id: string) => void;
   onDeleteText: (id: string) => void;
+  onEditText: (id: string) => void;
 }
+
+// Function to calculate canvas dimensions based on image dimensions
+const calculateCanvasDimensions = (
+  imageDimensions: {width: number; height: number} | null,
+) => {
+  if (!imageDimensions) {
+    return {
+      width: CANVAS_CONFIG.WIDTH,
+      height: CANVAS_CONFIG.HEIGHT,
+    };
+  }
+
+  const maxWidth = screenWidth * 0.9;
+  const maxHeight = screenHeight * 0.7;
+  const imageAspectRatio = imageDimensions.width / imageDimensions.height;
+
+  let canvasWidth = imageDimensions.width;
+  let canvasHeight = imageDimensions.height;
+
+  // Scale down if image is too large for screen
+  if (canvasWidth > maxWidth) {
+    canvasWidth = maxWidth;
+    canvasHeight = canvasWidth / imageAspectRatio;
+  }
+
+  if (canvasHeight > maxHeight) {
+    canvasHeight = maxHeight;
+    canvasWidth = canvasHeight * imageAspectRatio;
+  }
+
+  return {
+    width: canvasWidth,
+    height: canvasHeight,
+  };
+};
 
 export const CanvasContainer: React.FC<CanvasContainerProps> = ({
   selectedImage,
+  imageDimensions,
   gesture,
   scale,
   translateX,
@@ -30,7 +77,10 @@ export const CanvasContainer: React.FC<CanvasContainerProps> = ({
   onSelectText,
   onCopyText,
   onDeleteText,
+  onEditText,
 }) => {
+  const canvasDimensions = calculateCanvasDimensions(imageDimensions);
+
   const animatedCanvasStyle = useAnimatedStyle(() => {
     return {
       transform: [
@@ -72,13 +122,22 @@ export const CanvasContainer: React.FC<CanvasContainerProps> = ({
         onSelect={onSelectText}
         onCopy={onCopyText}
         onDelete={onDeleteText}
+        onEdit={onEditText}
       />
     ));
   };
 
   return (
     <GestureDetector gesture={gesture}>
-      <Animated.View style={[styles.canvasContainer, animatedCanvasStyle]}>
+      <Animated.View
+        style={[
+          styles.canvasContainer,
+          {
+            width: canvasDimensions.width,
+            height: canvasDimensions.height,
+          },
+          animatedCanvasStyle,
+        ]}>
         <TouchableWithoutFeedback onPress={handleCanvasPress}>
           <View style={styles.canvas}>
             {renderCanvasContent()}

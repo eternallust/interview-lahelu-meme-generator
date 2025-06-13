@@ -8,6 +8,8 @@ import {IMAGE_PICKER_OPTIONS} from '../constants/canvas';
 export interface ImagePickerResult {
   success: boolean;
   imageUri?: string;
+  width?: number;
+  height?: number;
   error?: string;
 }
 
@@ -27,11 +29,18 @@ export const pickImageFromLibrary = (): Promise<ImagePickerResult> => {
           return;
         }
 
-        const imageUri = response.assets?.[0]?.uri;
-        if (imageUri) {
-          resolve({success: true, imageUri});
+        const asset = response.assets?.[0];
+        const imageUri = asset?.uri;
+        const width = asset?.width;
+        const height = asset?.height;
+
+        if (imageUri && width && height) {
+          resolve({success: true, imageUri, width, height});
         } else {
-          resolve({success: false, error: 'No image selected'});
+          resolve({
+            success: false,
+            error: 'No image selected or missing dimensions',
+          });
         }
       },
     );

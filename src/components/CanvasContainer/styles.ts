@@ -1,10 +1,7 @@
 import {StyleSheet} from 'react-native';
-import {CANVAS_CONFIG} from '../../constants/canvas';
 
 export const styles = StyleSheet.create({
   canvasContainer: {
-    width: CANVAS_CONFIG.WIDTH,
-    height: CANVAS_CONFIG.HEIGHT,
     justifyContent: 'center',
     alignItems: 'center',
   },

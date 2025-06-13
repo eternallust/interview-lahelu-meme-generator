@@ -15,6 +15,7 @@ interface TextElementProps {
   onSelect: (id: string) => void;
   onCopy: (id: string) => void;
   onDelete: (id: string) => void;
+  onEdit: (id: string) => void;
 }
 
 export const TextElement: React.FC<TextElementProps> = ({
@@ -23,6 +24,7 @@ export const TextElement: React.FC<TextElementProps> = ({
   onSelect,
   onCopy,
   onDelete,
+  onEdit,
 }) => {
   const translateX = useSharedValue(element.x);
   const translateY = useSharedValue(element.y);
@@ -209,6 +211,12 @@ export const TextElement: React.FC<TextElementProps> = ({
             onPress={() => onDelete(element.id)}>
             <Text style={styles.actionButtonText}>🗑️</Text>
           </TouchableOpacity>
+
+          <TouchableOpacity
+            style={styles.actionButton}
+            onPress={() => onEdit(element.id)}>
+            <Text style={styles.actionButtonText}>✏️</Text>
+          </TouchableOpacity>
         </Animated.View>
       </>
     );
@@ -227,6 +235,7 @@ export const TextElement: React.FC<TextElementProps> = ({
                 fontSize: element.fontSize,
                 color: element.color,
                 fontWeight: element.fontWeight,
+                backgroundColor: element.backgroundColor || 'transparent',
               },
             ]}>
             {element.text}

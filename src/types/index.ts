@@ -23,6 +23,7 @@ export interface TextElement {
   scale: number;
   fontSize: number;
   color: string;
+  backgroundColor?: string;
   fontWeight: 'normal' | 'bold';
   isSelected: boolean;
 }
@@ -35,4 +36,5 @@ export interface TextElementsState {
   selectText: (id: string | null) => void;
   deleteText: (id: string) => void;
   copyText: (id: string) => void;
+  editText: (id: string) => void;
 }
