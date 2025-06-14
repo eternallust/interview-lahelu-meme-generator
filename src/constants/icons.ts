@@ -10,18 +10,6 @@ export const ICONS = {
   COPY: '📋',
   DELETE: '🗑️',
   EDIT: '✏️',
-
-  // Additional Icons (for future use)
-  SAVE: '💾',
-  SHARE: '📤',
-  FOLDER: '📁',
-  PLUS: '➕',
-  SETTINGS: '⚙️',
-  CLOSE: '❌',
-  CHECK: '✅',
-  STAR: '⭐',
-  HEART: '❤️',
-  DOWNLOAD: '⬇️',
 } as const;
 
 // Icon size constants

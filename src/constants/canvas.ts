@@ -9,11 +9,6 @@ export const CANVAS_CONFIG = {
   HEIGHT: screenHeight * 0.6,
 } as const;
 
-export const SCREEN_DIMENSIONS = {
-  WIDTH: screenWidth,
-  HEIGHT: screenHeight,
-} as const;
-
 export const IMAGE_PICKER_OPTIONS = {
   mediaType: 'photo' as const,
   includeBase64: false,

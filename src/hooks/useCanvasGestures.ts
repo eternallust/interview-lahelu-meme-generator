@@ -11,12 +11,12 @@ import {
 import {DIMENSIONS} from '../constants';
 
 export const useCanvasGestures = () => {
-  const scale = useSharedValue(DIMENSIONS.DEFAULT_SCALE);
-  const savedScale = useSharedValue(DIMENSIONS.DEFAULT_SCALE);
-  const translateX = useSharedValue(DIMENSIONS.DEFAULT_POSITION);
-  const translateY = useSharedValue(DIMENSIONS.DEFAULT_POSITION);
-  const savedTranslateX = useSharedValue(DIMENSIONS.DEFAULT_POSITION);
-  const savedTranslateY = useSharedValue(DIMENSIONS.DEFAULT_POSITION);
+  const scale = useSharedValue<number>(DIMENSIONS.DEFAULT_SCALE);
+  const savedScale = useSharedValue<number>(DIMENSIONS.DEFAULT_SCALE);
+  const translateX = useSharedValue<number>(DIMENSIONS.DEFAULT_POSITION);
+  const translateY = useSharedValue<number>(DIMENSIONS.DEFAULT_POSITION);
+  const savedTranslateX = useSharedValue<number>(DIMENSIONS.DEFAULT_POSITION);
+  const savedTranslateY = useSharedValue<number>(DIMENSIONS.DEFAULT_POSITION);
 
   const resetCanvasTransform = () => {
     scale.value = withSpring(DIMENSIONS.DEFAULT_SCALE);

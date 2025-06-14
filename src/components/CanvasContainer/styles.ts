@@ -1,5 +1,5 @@
 import {StyleSheet} from 'react-native';
-import {COLORS, STRINGS, DIMENSIONS} from '../../constants';
+import {COLORS} from '../../constants';
 
 export const styles = StyleSheet.create({
   canvasContainer: {
